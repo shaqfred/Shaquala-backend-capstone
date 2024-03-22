@@ -2,12 +2,17 @@ const express = require("express");
 
 const journals = express.Router();
 
-const { getAllJournal, getOneJournal } = require("../query/journal.js");
+const {
+  getAllJournal,
+  getOneJournal,
+  updateJournal,
+} = require("../query/journal.js");
 
 // journals.get("/", (request, response) => {
 //   response.status(200).json({ message: "Journalfly Home Page" });
-// });
+// });- testing the first get request
 
+//alljournal
 journals.get("/", async (request, response) => {
   try {
     const allJournals = await getAllJournal();
@@ -16,6 +21,7 @@ journals.get("/", async (request, response) => {
     response.status(404).json({ message: error });
   }
 });
+//one journal
 journals.get("/:id", async (request, response) => {
   const id = request.params.id;
 
@@ -27,6 +33,18 @@ journals.get("/:id", async (request, response) => {
     response.status(404).json({
       error: "id must be numeric value",
     });
+  }
+});
+// updating journal
+journals.put("/:id", async (request, response) => {
+  const id = request.params.id;
+  const body = request.body;
+  const updatedJournal = await updateJournal(body, id);
+
+  if (updatedJournal.id) {
+    response.status(200).json(updatedJournal);
+  } else {
+    response.status(404).json(updatedJournal);
   }
 });
 

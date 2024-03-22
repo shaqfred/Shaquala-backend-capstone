@@ -9,16 +9,25 @@ const getAllJournal = async () => {
   }
 };
 
-const getOneJournal = async (journalID) => {
+const getOneJournal = async (id) => {
   try {
-    const oneJournal = await db.one(
-      "SELECT * FROM journal WHERE id=$1",
-      journalID
-    );
+    const oneJournal = await db.one("SELECT * FROM journal WHERE id=$1", id);
     return oneJournal;
   } catch (error) {
     return error;
   }
 };
 
-module.exports = { getAllJournal, getOneJournal };
+const updateJournal = async (body, id) => {
+  try {
+    const updatedJournal = await db.one(
+      "UPDATE journal SET journal_entry=$1, journal_mood=$2, journal_affirmation=$3  WHERE id=$4 RETURNING *",
+      [body.journal_entry, body.journal_mood, body.journal_affirmation, id]
+    );
+    return updatedJournal;
+  } catch (error) {
+    return error;
+  }
+};
+
+module.exports = { getAllJournal, getOneJournal, updateJournal };
