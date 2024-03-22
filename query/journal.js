@@ -9,4 +9,16 @@ const getAllJournal = async () => {
   }
 };
 
-module.exports = { getAllJournal };
+const getOneJournal = async (journalID) => {
+  try {
+    const oneJournal = await db.one(
+      "SELECT * FROM journal WHERE id=$1",
+      journalID
+    );
+    return oneJournal;
+  } catch (error) {
+    return error;
+  }
+};
+
+module.exports = { getAllJournal, getOneJournal };
