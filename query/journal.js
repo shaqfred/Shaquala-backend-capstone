@@ -21,8 +21,14 @@ const getOneJournal = async (id) => {
 const updateJournal = async (body, id) => {
   try {
     const updatedJournal = await db.one(
-      "UPDATE journal SET journal_entry=$1, journal_mood=$2, journal_affirmation=$3  WHERE id=$4 RETURNING *",
-      [body.journal_entry, body.journal_mood, body.journal_affirmation, id]
+      "UPDATE journal SET journal_entry=$1, journal_mood=$2, journal_affirmation=$3 WHERE id=$4 RETURNING *",
+      [
+        body.journal_entry,
+        body.journal_mood,
+        body.journal_affirmation,
+        start_date,
+        id,
+      ]
     );
     return updatedJournal;
   } catch (error) {
@@ -42,4 +48,27 @@ const deleteJournal = async (id) => {
   }
 };
 
-module.exports = { getAllJournal, getOneJournal, updateJournal, deleteJournal };
+const createJournal = async (journal) => {
+  try {
+    const newJournal = await db.one(
+      "INSERT INTO journal( journal_entry, journal_mood, journal_affirmation) VALUES ( $1, $2, $3, $4)  RETURNING *",
+      [
+        journal.journal_entry,
+        journal.journal_mood,
+        journal.journal_affirmation,
+        journal.start_date,
+      ]
+    );
+    return newJournal;
+  } catch (error) {
+    return error;
+  }
+};
+
+module.exports = {
+  getAllJournal,
+  getOneJournal,
+  updateJournal,
+  deleteJournal,
+  createJournal,
+};

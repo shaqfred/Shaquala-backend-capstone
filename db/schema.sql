@@ -9,5 +9,5 @@ CREATE TABLE journal(
     journal_entry TEXT NOT NULL,
     journal_mood TEXT NOT NULL,
     journal_affirmation TEXT NOT NULL,
-    journal_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    start_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
