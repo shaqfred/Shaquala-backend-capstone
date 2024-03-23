@@ -30,4 +30,16 @@ const updateJournal = async (body, id) => {
   }
 };
 
-module.exports = { getAllJournal, getOneJournal, updateJournal };
+const deleteJournal = async (id) => {
+  try {
+    const deletedJournal = await db.one(
+      "DELETE FROM journal WHERE id=$1 RETURNING *",
+      id
+    );
+    return deletedJournal;
+  } catch (error) {
+    return error;
+  }
+};
+
+module.exports = { getAllJournal, getOneJournal, updateJournal, deleteJournal };

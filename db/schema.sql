@@ -6,8 +6,8 @@ CREATE DATABASE journal_dev;
 
 CREATE TABLE journal(
     id SERIAL PRIMARY KEY,
-    journal_Entry TEXT NOT NULL,
-    journal_Mood TEXT NOT NULL,
-    journal_Affirmation TEXT NOT NULL,
-    start_date TIMESTAMP
+    journal_entry TEXT NOT NULL,
+    journal_mood TEXT NOT NULL,
+    journal_affirmation TEXT NOT NULL,
+    journal_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

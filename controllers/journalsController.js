@@ -6,6 +6,7 @@ const {
   getAllJournal,
   getOneJournal,
   updateJournal,
+  deleteJournal,
 } = require("../query/journal.js");
 
 // journals.get("/", (request, response) => {
@@ -45,6 +46,23 @@ journals.put("/:id", async (request, response) => {
     response.status(200).json(updatedJournal);
   } else {
     response.status(404).json(updatedJournal);
+  }
+});
+//delete journal
+journals.delete("/:id", async (request, response) => {
+  const id = request.params.id;
+  if (Number(id)) {
+    const deletedJournal = await deleteJournal(id);
+
+    if (deletedJournal.id) {
+      response.status(200).json(deletedJournal);
+    } else {
+      response.status(500).json(deletedJournal);
+    }
+  } else {
+    response.status(404).json({
+      error: "id must be numeric",
+    });
   }
 });
 
