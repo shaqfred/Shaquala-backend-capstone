@@ -2,7 +2,7 @@ const db = require("../db/dbConfig");
 
 const getAllJournal = async () => {
   try {
-    const allJournal = await db.any("SELECT * FROM journal");
+    const allJournal = await db.any("SELECT * FROM journalss");
     return allJournal;
   } catch (error) {
     return error;
@@ -11,7 +11,7 @@ const getAllJournal = async () => {
 
 const getOneJournal = async (id) => {
   try {
-    const oneJournal = await db.one("SELECT * FROM journal WHERE id=$1", id);
+    const oneJournal = await db.one("SELECT * FROM journalss WHERE id=$1", id);
     return oneJournal;
   } catch (error) {
     return error;
@@ -21,7 +21,7 @@ const getOneJournal = async (id) => {
 const updateJournal = async (body, id) => {
   try {
     const updatedJournal = await db.one(
-      "UPDATE journal SET journal_entry=$1, journal_mood=$2, journal_affirmation=$3 WHERE id=$4 RETURNING *",
+      "UPDATE journalss SET journal_entry=$1, journal_mood=$2, journal_affirmation=$3 WHERE id=$4 RETURNING *",
       [
         body.journal_entry,
         body.journal_mood,
@@ -39,7 +39,7 @@ const updateJournal = async (body, id) => {
 const deleteJournal = async (id) => {
   try {
     const deletedJournal = await db.one(
-      "DELETE FROM journal WHERE id=$1 RETURNING *",
+      "DELETE FROM journalss WHERE id=$1 RETURNING *",
       id
     );
     return deletedJournal;
@@ -48,15 +48,14 @@ const deleteJournal = async (id) => {
   }
 };
 
-const createJournal = async (journal) => {
+const createJournal = async (journalss) => {
   try {
     const newJournal = await db.one(
-      "INSERT INTO journal( journal_entry, journal_mood, journal_affirmation) VALUES ( $1, $2, $3, $4)  RETURNING *",
+      "INSERT INTO journal( journal_entry, journal_mood, journal_affirmation) VALUES ( $2, $3, $4)  RETURNING *",
       [
-        journal.journal_entry,
-        journal.journal_mood,
-        journal.journal_affirmation,
-        journal.start_date,
+        journalss.journal_entry,
+        journalss.journal_mood,
+        journalss.journal_affirmation,
       ]
     );
     return newJournal;

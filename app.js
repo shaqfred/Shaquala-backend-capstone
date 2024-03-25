@@ -6,7 +6,7 @@ const journalController = require("./controllers/journalsController");
 
 app.use(express.json());
 app.use(cors());
-app.use("/journals", journalController);
+app.use("/journalss", journalController);
 
 app.get("/", (request, response) => {
   response.status(200).send("<h1>Welcome to Journalfly<h1>");

@@ -1,6 +1,7 @@
 const express = require("express");
 
-const journals = express.Router();
+const journalss = express.Router();
+const { validateEntry } = require("../middleware/entryContentValidation.js");
 
 const {
   getAllJournal,
@@ -10,12 +11,12 @@ const {
   createJournal,
 } = require("../query/journal.js");
 
-// journals.get("/", (request, response) => {
+// journalss.get("/", (request, response) => {
 //   response.status(200).json({ message: "Journalfly Home Page" });
 // });- testing the first get request
 
 //alljournal
-journals.get("/", async (request, response) => {
+journalss.get("/", async (request, response) => {
   try {
     const allJournals = await getAllJournal();
     response.status(200).json(allJournals);
@@ -24,7 +25,7 @@ journals.get("/", async (request, response) => {
   }
 });
 //one journal
-journals.get("/:id", async (request, response) => {
+journalss.get("/:id", async (request, response) => {
   const id = request.params.id;
 
   console.log(Number(id));
@@ -38,7 +39,7 @@ journals.get("/:id", async (request, response) => {
   }
 });
 // updating journal
-journals.put("/:id", async (request, response) => {
+journalss.put("/:id", validateEntry, async (request, response) => {
   const id = request.params.id;
   const body = request.body;
   const updatedJournal = await updateJournal(body, id);
@@ -50,7 +51,7 @@ journals.put("/:id", async (request, response) => {
   }
 });
 //delete journal
-journals.delete("/:id", async (request, response) => {
+journalss.delete("/:id", async (request, response) => {
   const id = request.params.id;
   if (Number(id)) {
     const deletedJournal = await deleteJournal(id);
@@ -68,7 +69,7 @@ journals.delete("/:id", async (request, response) => {
 });
 
 //post a new journal
-journals.post("/", async (request, response) => {
+journalss.post("/", validateEntry, async (request, response) => {
   const body = request.body;
   const newJournal = await createJournal(body);
   console.log(body);
@@ -79,4 +80,4 @@ journals.post("/", async (request, response) => {
   }
 });
 
-module.exports = journals;
+module.exports = journalss;
