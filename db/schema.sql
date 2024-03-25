@@ -1,13 +1,13 @@
-DROP DATABASE IF EXISTS journalss_dev;
+DROP DATABASE IF EXISTS journals_dev;
 
-CREATE DATABASE journalss_dev;
+CREATE DATABASE journals_dev;
 
-\c journalss_dev;
+\c journals_dev;
 
-CREATE TABLE journalss(
+CREATE TABLE journals(
     id SERIAL PRIMARY KEY,
     journal_entry TEXT NOT NULL,
     journal_mood TEXT NOT NULL,
     journal_affirmation TEXT NOT NULL,
-    start_date DATE DEFAULT CURRENT_DATE
+    entry_date DATE NOT NULL DEFAULT CURRENT_DATE
 );

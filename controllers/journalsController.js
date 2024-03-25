@@ -13,16 +13,20 @@ const {
 
 // journalss.get("/", (request, response) => {
 //   response.status(200).json({ message: "Journalfly Home Page" });
-// });- testing the first get request
+// });
+// testing the first get request
 
 //alljournal
 journalss.get("/", async (request, response) => {
-  try {
-    const allJournals = await getAllJournal();
-    response.status(200).json(allJournals);
-  } catch (error) {
-    response.status(404).json({ message: error });
-  }
+  // try {
+  //   const allJournals = await getAllJournal();
+  //   response.status(200).json(allJournals);
+  // } catch (error) {
+  //   response.status(404).json({ message: error });
+  // }
+  const allJournals = await getAllJournal();
+  console.log(allJournals);
+  response.status(200).json(allJournals);
 });
 //one journal
 journalss.get("/:id", async (request, response) => {

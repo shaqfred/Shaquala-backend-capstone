@@ -1,7 +1,7 @@
-\c journalss_dev;
+\c journals_dev;
 
-INSERT INTO journalss(
-    journal_entry, journal_mood, journal_affirmation,)
+INSERT INTO journals(
+    journal_entry, journal_mood, journal_affirmation)
 VALUES(
 'text','sad','It is always good to let someone know how you feel'),
 ('message','happy','Today is a great day'),

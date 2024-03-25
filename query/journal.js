@@ -2,7 +2,7 @@ const db = require("../db/dbConfig");
 
 const getAllJournal = async () => {
   try {
-    const allJournal = await db.any("SELECT * FROM journalss");
+    const allJournal = await db.any("SELECT * FROM journals");
     return allJournal;
   } catch (error) {
     return error;
@@ -11,7 +11,7 @@ const getAllJournal = async () => {
 
 const getOneJournal = async (id) => {
   try {
-    const oneJournal = await db.one("SELECT * FROM journalss WHERE id=$1", id);
+    const oneJournal = await db.one("SELECT * FROM journals WHERE id=$1", id);
     return oneJournal;
   } catch (error) {
     return error;
@@ -21,14 +21,8 @@ const getOneJournal = async (id) => {
 const updateJournal = async (body, id) => {
   try {
     const updatedJournal = await db.one(
-      "UPDATE journalss SET journal_entry=$1, journal_mood=$2, journal_affirmation=$3 WHERE id=$4 RETURNING *",
-      [
-        body.journal_entry,
-        body.journal_mood,
-        body.journal_affirmation,
-        start_date,
-        id,
-      ]
+      "UPDATE journals SET journal_entry=$1, journal_mood=$2, journal_affirmation=$3 WHERE id=$4 RETURNING *",
+      [body.journal_entry, body.journal_mood, body.journal_affirmation, id]
     );
     return updatedJournal;
   } catch (error) {
@@ -39,7 +33,7 @@ const updateJournal = async (body, id) => {
 const deleteJournal = async (id) => {
   try {
     const deletedJournal = await db.one(
-      "DELETE FROM journalss WHERE id=$1 RETURNING *",
+      "DELETE FROM journals WHERE id=$1 RETURNING *",
       id
     );
     return deletedJournal;
@@ -48,14 +42,14 @@ const deleteJournal = async (id) => {
   }
 };
 
-const createJournal = async (journalss) => {
+const createJournal = async (journals) => {
   try {
     const newJournal = await db.one(
-      "INSERT INTO journal( journal_entry, journal_mood, journal_affirmation) VALUES ( $2, $3, $4)  RETURNING *",
+      "INSERT INTO journals (journal_entry, journal_mood, journal_affirmation) VALUES ( $1, $2, $3) RETURNING *",
       [
-        journalss.journal_entry,
-        journalss.journal_mood,
-        journalss.journal_affirmation,
+        journals.journal_entry,
+        journals.journal_mood,
+        journals.journal_affirmation,
       ]
     );
     return newJournal;
